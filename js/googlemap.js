@@ -15,7 +15,7 @@ function getPos(position) {//initial function to read the position
   mylon = position.coords.longitude;
 
   // Obtener datos del servidor
-  $.getJSON('http://www.agarti.com.mx/iberobus/localizar.json', function(serverInfo){
+  $.getJSON('http://iberobus-newly.rhcloud.com/localizar.json', function(serverInfo){
     onSuccess(serverInfo);
   });
   setTimeout(keep_alive, 500); //read every 5 seconds
@@ -49,7 +49,7 @@ function onSuccess(position) {//read map and mark it in the map
 }
 
 function keep_alive() {//read position and mark it in the map
-  $.getJSON('http://www.agarti.com.mx/iberobus/localizar.json', function(serverInfo){
+  $.getJSON('http://iberobus-newly.rhcloud.com/localizar.json', function(serverInfo){
     onRefresh(serverInfo);
   });
   setTimeout(keep_alive, 500); //read every 5 seconds 
