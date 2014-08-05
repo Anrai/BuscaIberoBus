@@ -1,60 +1,80 @@
+// http://stackoverflow.com/questions/17474550/solved-refresh-google-map-javascript-ajax
 function GoogleMap(){
 
-    this.initialize = function(){
-        var map = showMap();
-        addRoutesToMap(map);
-        addMarkersToMap(map);
-    }
-
-    var showMap = function(){
-        var mapOptions = {
-            zoom: 16,
-            center: new google.maps.LatLng(19.0328754, -98.2421974),
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        }
-
-        var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-
-        return map;
-    }
+  this.initialize = function(){
+    navigator.geolocation.getCurrentPosition(getPos, onError, {enableHighAccuracy:true});
+  }
 }
 
-var globalServerInfo;
+var mylat;
+var mylon;
 
-// Obtener datos del servidor
-$.getJSON('http://www.agarti.com.mx/iberobus/localizar.json', function(serverInfo){
-    globalServerInfo = serverInfo;
-});
+function getPos(position) {//initial function to read the position
 
-// Colocar marcadores en el mapa
-var addMarkersToMap = function(map){
-    var mapBounds = new google.maps.LatLngBounds(); // Para cargar Longitudes y Latitudes
-    
-    var latitudeAndLongitudeOne = new google.maps.LatLng('19.0328754', '-98.2421974');
+  mylat = position.coords.latitude;
+  mylon = position.coords.longitude;
 
-    var markerOne = new google.maps.Marker({
-        position: latitudeAndLongitudeOne,
-        map: map
-    });
+  // Obtener datos del servidor
+  $.getJSON('http://www.agarti.com.mx/iberobus/localizar.json', function(serverInfo){
+    onSuccess(serverInfo);
+  });
+  setTimeout(keep_alive, 500); //read every 5 seconds
+}
 
-    var latitudeAndLongitudeTwo = new google.maps.LatLng(globalServerInfo.ubicacion.latitud, globalServerInfo.ubicacion.longitud);
+function onSuccess(position) {//read map and mark it in the map
+    lat = position.ubicacion.latitud;
+    lon = position.ubicacion.longitud;
 
-    var markerOne = new google.maps.Marker({
-        position: latitudeAndLongitudeTwo,
+    console.log("Found - LAT: ", lat, "LON: ", lon);
+
+    var mapoptions = {
+        zoom: 16,
+        center: new google.maps.LatLng(19.0328754, -98.2421974),
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    map = new google.maps.Map(document.getElementById("map-canvas"), mapoptions);
+    marker = new google.maps.Marker({
+        position: new google.maps.LatLng(lat,lon),
         map: map,
         icon: 'img/bus.png'
     });
-
-    mapBounds.extend(latitudeAndLongitudeOne);
-    mapBounds.extend(latitudeAndLongitudeTwo);
-    
-    map.fitBounds(mapBounds);
-}
-
-// Añadir ruta en el mapa
-var addRoutesToMap = function(map){
+    markerMeInitial = new google.maps.Marker({
+        position: new google.maps.LatLng(mylat,mylon),
+        map: map
+    });
     var ctaLayer = new google.maps.KmlLayer({
         url: 'http://agarti.com.mx/RutaIberoBusNormal.kml'
     });
     ctaLayer.setMap(map);
+}
+
+function keep_alive() {//read position and mark it in the map
+  $.getJSON('http://www.agarti.com.mx/iberobus/localizar.json', function(serverInfo){
+    onRefresh(serverInfo);
+  });
+  setTimeout(keep_alive, 500); //read every 5 seconds 
+}
+
+//refresh only the marker
+function onRefresh(position) {
+  lat = position.ubicacion.latitud;
+  lon = position.ubicacion.longitud;
+
+  console.log("Found - LAT: ", lat, "LON: ", lon);
+
+  marker.setPosition(new google.maps.LatLng(lat, lon));//refresh marker
+  //map.setCenter(new google.maps.LatLng(lat, lon));//resfresh center of the map
+}
+
+function trace_client() {//mark clients position in the map
+   //clientMarker.setPosition(new google.maps.LatLng(client_lat, client_lon));
+   clientMarker = new google.maps.Marker({
+        position: new google.maps.LatLng(client_lat,client_lon),
+        map: map
+    });
+   console.log("client marked in the map");
+}
+
+function onError(error) {
+   console.log('code: '    + error.code, 'message: ' + error.message);
 }
