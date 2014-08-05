@@ -1,23 +1,30 @@
 function GoogleMap(){
 
-	this.initialize = function(){
-		var map = showMap();
-		addRoutesToMap(map);
-		addMarkersToMap(map);
-	}
+    this.initialize = function(){
+        var map = showMap();
+        addRoutesToMap(map);
+        addMarkersToMap(map);
+    }
 
-	var showMap = function(){
-		var mapOptions = {
-			zoom: 16,
-			center: new google.maps.LatLng(19.0328754, -98.2421974),
-			mapTypeId: google.maps.MapTypeId.ROADMAP
-		}
+    var showMap = function(){
+        var mapOptions = {
+            zoom: 16,
+            center: new google.maps.LatLng(19.0328754, -98.2421974),
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
 
-		var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+        var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
-		return map;
-	}
+        return map;
+    }
 }
+
+var globalServerInfo;
+
+// Obtener datos del servidor
+$.getJSON('http://www.agarti.com.mx/iberobus/localizar.json', function(serverInfo){
+    globalServerInfo = serverInfo;
+});
 
 // Colocar marcadores en el mapa
 var addMarkersToMap = function(map){
@@ -30,7 +37,7 @@ var addMarkersToMap = function(map){
         map: map
     });
 
-    var latitudeAndLongitudeTwo = new google.maps.LatLng('19.0231492', '-98.2445106');
+    var latitudeAndLongitudeTwo = new google.maps.LatLng(globalServerInfo.ubicacion.latitud, globalServerInfo.ubicacion.longitud);
 
     var markerOne = new google.maps.Marker({
         position: latitudeAndLongitudeTwo,
