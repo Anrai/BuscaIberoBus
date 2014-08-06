@@ -3,7 +3,7 @@
 <!-- config.xml reference: https://build.phonegap.com/docs/config-xml -->
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
-        id        = "creaciones.inteligentes.iberobus.user.app"
+        id        = "com.phonegap.hello-world"
         version   = "1.1.0">
 
     <name>IberoBus User App</name>
@@ -12,7 +12,7 @@
         Aplicación móvil de usuario que permite acceder al servidor del IberoBus para buscar la ubicación del transporte, checar horarios, rutas y hacer paradas.
     </description>
 
-    <author href="http://github.com/sergioenrique" email="sergioenrique@me.com">
+    <author href="http://github.com/anrai" email="sergioenrique@me.com">
         Creaciones Inteligentes
     </author>
 
