@@ -15,10 +15,10 @@ function getPos(position) {//initial function to read the position
   mylon = position.coords.longitude;
 
   // Obtener datos del servidor
-  $.getJSON('http://iberobus-newly.rhcloud.com/localizar.json', function(serverInfo){
+  $.getJSON('http://iberobus-newly.rhcloud.com/localizar.php', function(serverInfo){
     onSuccess(serverInfo);
   });
-  setTimeout(keep_alive, 500); //read every 5 seconds
+  setTimeout(keep_alive, 1000); //read every 5 seconds
 }
 
 function onSuccess(position) {//read map and mark it in the map
@@ -49,10 +49,10 @@ function onSuccess(position) {//read map and mark it in the map
 }
 
 function keep_alive() {//read position and mark it in the map
-  $.getJSON('http://iberobus-newly.rhcloud.com/localizar.json', function(serverInfo){
+  $.getJSON('http://iberobus-newly.rhcloud.com/localizar.php', function(serverInfo){
     onRefresh(serverInfo);
   });
-  setTimeout(keep_alive, 500); //read every 5 seconds 
+  setTimeout(keep_alive, 1000); //read every 5 seconds 
 }
 
 //refresh only the marker
