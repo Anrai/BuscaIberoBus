@@ -37,6 +37,7 @@ body {
 
 .ui-mobile .ui-page-active {
     background-image: url(../img/background.jpg);
+    background-repeat: no-repeat;
 }
 
 /* Portrait layout (default) */
