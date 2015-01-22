@@ -15,15 +15,15 @@ function getPos(position) {//initial function to read the position
   mylon = position.coords.longitude;
 
   // Obtener datos del servidor
-  $.getJSON('http://iberobus-newly.rhcloud.com/localizar.php', function(serverInfo){
+  $.getJSON('http://ww2.insta-mapper.com/api/api_multi.php?key=33527467&device_id=2880688115&latest=1', function(serverInfo){
     onSuccess(serverInfo);
   });
-  setTimeout(keep_alive, 1000); //read every 5 seconds
+  setTimeout(keep_alive, 10000); //read every 5 seconds
 }
 
 function onSuccess(position) {//read map and mark it in the map
-    lat = position.ubicacion.latitud;
-    lon = position.ubicacion.longitud;
+    lat = position[0].lat;
+    lon = position[0].lng;
 
     console.log("Found - LAT: ", lat, "LON: ", lon);
 
@@ -49,16 +49,16 @@ function onSuccess(position) {//read map and mark it in the map
 }
 
 function keep_alive() {//read position and mark it in the map
-  $.getJSON('http://iberobus-newly.rhcloud.com/localizar.php', function(serverInfo){
+  $.getJSON('http://ww2.insta-mapper.com/api/api_multi.php?key=33527467&device_id=2880688115&latest=1', function(serverInfo){
     onRefresh(serverInfo);
   });
-  setTimeout(keep_alive, 1000); //read every 5 seconds 
+  setTimeout(keep_alive, 10000); //read every 5 seconds 
 }
 
 //refresh only the marker
 function onRefresh(position) {
-  lat = position.ubicacion.latitud;
-  lon = position.ubicacion.longitud;
+  lat = position[0].lat;
+  lon = position[0].lng;
 
   console.log("Found - LAT: ", lat, "LON: ", lon);
 
