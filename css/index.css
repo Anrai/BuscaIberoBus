@@ -32,10 +32,6 @@ body {
     padding:0px;
     width:100%;
 }
-.ui-content {
-    background: url(../img/background.jpg) no-repeat;background-size: 100%!important;
-    height: 600px;
-}
 
 /* Portrait layout (default) */
 .app {
@@ -189,16 +185,10 @@ table tr:last-child td {
     border-bottom: none;
 }
 
-
-
-
-
-
-
-
-
-
-
+#inicioSesion{
+    background: url(../img/background.jpg) no-repeat;
+    background-size: 100%!important;
+}
 
 
 
